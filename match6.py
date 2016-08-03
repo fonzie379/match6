@@ -10,7 +10,7 @@ def pick_player_numbers():
     Returns a list containing a list of each of those plays, [ [],[],[] ]
     """
     numbers = range(1, 50)
-    picked_numbers = [random.sample(numbers, 6) for i in range(3)]
+    picked_numbers = [set(random.sample(numbers, 6)) for i in range(3)]
 
     return picked_numbers
 
@@ -34,11 +34,7 @@ def number_checker(player_nums, win_nums):
     results = []
 
     for play in player_nums:
-        total_match = 0
-        for number in play:
-            if number in win_nums:
-                total_match += 1
-        results.append(total_match)
+        results.append(len(play.intersection(win_nums)))
 
     return results
 
@@ -50,11 +46,11 @@ def jackpot_calculate(jackpot, jackpot_hit, play_results):
     Returns the current jackpot and jackpot_hit
     """
     #Increases the jackpot if there isn't a jackpot win
-    if 6 not in play_results:
-        jackpot += 100000
-    elif 6 in play_results:
+    if 6 in play_results:
         jackpot = 500000
-        jackpot_hit += 1
+        jackpot_hit += 1        
+    else:
+        jackpot += 100000
 
     return jackpot, jackpot_hit
 
@@ -80,7 +76,6 @@ def calculate_winnings(jackpot, play_results, winnings_total):
     for number in win_numbers:
         if number in play_results:
             hits += 1
-            break
 
     return winnings_total
 
@@ -118,7 +113,7 @@ def num_trials(n):
     for i in range(7):
         print("Probability of matching " + str(i) + ": " + str(match_totals[i]/(n*3.0)))
         
-    print("Probability of matching at least 3: " + str(hits/(n*3.0)))
+    print("Probability of matching at least 3: " + str(hits/(n*3.0)))    
 
 #Number of Trials desired
 n = 500
