@@ -4,7 +4,7 @@ def pick_player_numbers():
     """
     Uses the random number generator to pick three plays of six numbers for each $2 buy
 
-    Returns a list containing a list of each of those plays, [ [],[],[] ]
+    Returns a list containing a set of each of those plays, [ {},{},{} ]
     """
     numbers = range(1, 50)
     picked_numbers = [set(random.sample(numbers, 6)) for i in range(3)]
