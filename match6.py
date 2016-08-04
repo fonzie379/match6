@@ -1,8 +1,5 @@
 import random
 
-#
-hits = 0
-
 def pick_player_numbers():
     """
     Uses the random number generator to pick three plays of six numbers for each $2 buy
@@ -70,13 +67,7 @@ def calculate_winnings(jackpot, play_results, winnings_total):
             winnings_total += winnings_key[match]
         except KeyError:
             pass
-
-    #Checks to see if any of the plays have a winner
-    win_numbers = {6, 5, 4, 3}
-    for number in win_numbers:
-        if number in play_results:
-            hits += 1
-
+    
     return winnings_total
 
 def matching_totals(play_results, match_totals):
@@ -112,8 +103,9 @@ def num_trials(n):
    
     for i in range(7):
         print("Probability of matching " + str(i) + ": " + str(match_totals[i]/(n*3.0)))
-        
-    print("Probability of matching at least 3: " + str(hits/(n*3.0)))    
+    
+    at_least_3 = match_totals[6] + match_totals[5] + match_totals[4] + match_totals[3]
+    print("Probability of matching at least 3: " + str(at_least_3/(n*3.0)))    
 
 #Number of Trials desired
 n = 500
