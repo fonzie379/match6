@@ -1,8 +1,9 @@
 import random
+import matplotlib.pyplot as plt
 
 def pick_player_numbers():
     """
-    Uses the random number generator to pick three plays of six numbers for each $2 buy
+    Uses the random number generator to pick three plays of six numbers
 
     Returns a list containing a set of each of those plays, [ {},{},{} ]
     """
@@ -58,8 +59,6 @@ def calculate_winnings(jackpot, play_results, winnings_total):
 
     Returns the amount of dollars won per play
     """
-    global hits
-
     winnings_key = {6: jackpot, 5: 1000, 4: 20, 3: 2}
 
     for match in play_results:
@@ -86,6 +85,7 @@ def num_trials(n):
     jackpot = 500000
     jackpot_hit = 0
     winnings = 0
+    graph_winnings = []
     match_totals = {6: 0, 5: 0, 4: 0, 3: 0, 2: 0, 1: 0, 0: 0}
 
     for k in range(n):
@@ -98,14 +98,34 @@ def num_trials(n):
         jackpot, jackpot_hit = jackpot_calculate(jackpot, jackpot_hit, play_results)
 
         winnings = calculate_winnings(jackpot, play_results, winnings)
+        graph_winnings.append(winnings)
 
-        matching_totals(play_results, match_totals)
+        matching_totals(play_results, match_totals)   
+
+    graph(n, graph_winnings)   
    
     for i in range(7):
         print("Probability of matching " + str(i) + ": " + str(match_totals[i]/(n*3.0)))
     
     at_least_3 = match_totals[6] + match_totals[5] + match_totals[4] + match_totals[3]
-    print("Probability of matching at least 3: " + str(at_least_3/(n*3.0)))    
+    print("Probability of matching at least 3: " + str(at_least_3/(n*3.0)))  
+    
+
+def graph(n, winnings):
+    """
+    Graphs the lottery winnings, ticket costs, and net costs of playing
+    """    
+    cost = [2*(j+1) for j in range(n)]
+    net_costs = [ winnings[i]-cost[i] for i in range(n)]
+    plt.plot(winnings, label="Lottery Winnings", linewidth=2.5)
+    plt.plot(cost, label="Ticket Costs", linewidth=2.5)
+    plt.plot(net_costs, label="Net Costs", linewidth=2.5)
+    plt.axhline(y=0, color="black")
+    plt.xlabel("Number of Plays")
+    plt.ylabel("Money Amount")
+    plt.title("The Cost of Playing the Match 6 Lotto")
+    plt.legend(loc="lower left")
+    plt.show()       
 
 #Number of Trials desired
 n = 500
