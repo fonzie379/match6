@@ -104,12 +104,21 @@ def num_trials(n):
 
     graph(n, graph_winnings)   
    
+   #Probability Per Play
+    print("Probability Per Play")
     for i in range(7):
         print("Probability of matching " + str(i) + ": " + str(match_totals[i]/(n*3.0)))
     
     at_least_3 = match_totals[6] + match_totals[5] + match_totals[4] + match_totals[3]
-    print("Probability of matching at least 3: " + str(at_least_3/(n*3.0)))  
+    print("Probability of matching at least 3: " + str(at_least_3/(n*3.0)))    
     
+    #Winning Probability Per Game
+    print('\n' + "Winning Probability Per Game")
+    for i in range(3, 7):
+        print("Probability of matching " + str(i) + ": " + str(match_totals[i]/(n)))
+    
+    at_least_3 = match_totals[6] + match_totals[5] + match_totals[4] + match_totals[3]
+    print("Probability of matching at least 3: " + str(at_least_3/(n)))    
 
 def graph(n, winnings):
     """
