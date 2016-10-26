@@ -102,7 +102,9 @@ def num_trials(n):
 
         matching_totals(play_results, match_totals)   
 
-    graph(n, graph_winnings)   
+    #Graphs
+    graph(n, graph_winnings)
+    histogram(n, match_totals)
    
    #Probability Per Play
     print("Probability Per Play")
@@ -125,6 +127,7 @@ def graph(n, winnings):
     Graphs the lottery winnings, ticket costs, and net costs of playing
     """    
     cost = [2*(j+1) for j in range(n)]
+    f = plt.figure(1)
     net_costs = [ winnings[i]-cost[i] for i in range(n)]
     plt.plot(winnings, label="Lottery Winnings", linewidth=2.5)
     plt.plot(cost, label="Ticket Costs", linewidth=2.5)
@@ -134,7 +137,27 @@ def graph(n, winnings):
     plt.ylabel("Money Amount")
     plt.title("The Cost of Playing the Match 6 Lotto")
     plt.legend(loc="lower left")
-    plt.show()       
+    f.show()
+
+def histogram(n, match_totals):
+    """
+    Displays a histogram of the number of 0 through 6 matches
+    """    
+    #Creates a list of the matches
+    values = []
+    for num, matches in match_totals.items():
+        for k in range(matches):
+            values.append(num)
+    
+    g = plt.figure(2)
+    data = [(x-.5) for x in range(7)]
+    plt.title("Histogram of the Match 6 Lotto")
+    plt.ylabel("Number of matches in " + str(3*n) + " plays")
+    plt.xlabel("Number of matched out of 6")
+    plt.hist(values, bins= data, color='c')
+    plt.xticks(range(7))
+    plt.xlim([-1,7])
+    g.show()
 
 #Number of Trials desired
 n = 500
